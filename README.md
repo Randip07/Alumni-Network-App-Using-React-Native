@@ -1,50 +1,129 @@
-# Welcome to your Expo app 👋
+# 🎓 Alumni Network App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A **React Native** application designed to bridge the gap between **current students**, **alumni**, and **faculty** of a university.
+This app creates a centralized, user-friendly platform to foster mentorship, career guidance, professional networking, and meaningful connections.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+✅ **For Students**
 
-2. Start the app
+* Explore alumni profiles
+* Send connection requests
+* Gain insights into alumni career paths and achievements
+* Join alumni batches for networking
 
-   ```bash
-    npx expo start
-   ```
+✅ **For Alumni**
 
-In the output, you'll find options to open the app in a
+* Connect with fellow alumni
+* View current student batches
+* Offer mentorship and career guidance
+* Participate in events and knowledge-sharing
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+✅ **For Faculty**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+* Oversee interactions between students and alumni
+* Manage and moderate the platform
+* Ensure a healthy and collaborative environment
 
-## Get a fresh project
+✅ **General**
 
-When you're ready, run:
+* Centralized alumni data management
+* Creation and management of alumni batches
+* Easy-to-navigate UI/UX
+* Secure login and authentication
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend**: React Native (Expo)
+* **Backend**: \[Specify your backend, e.g., Node.js, Firebase, Django]
+* **Database**: \[e.g., Firebase Firestore, MongoDB, PostgreSQL]
+* **Authentication**: \[e.g., Firebase Auth, JWT]
+* **State Management**: \[e.g., Redux, Context API]
+
+---
+
+## 📱 Screenshots
+
+*(Add screenshots or screen recordings here to showcase the app UI)*
+
+---
+
+## 🏦 Installation
+
+1️⃣ **Clone the repository**
 
 ```bash
-npm run reset-project
+git clone https://github.com/your-username/alumni-network-app.git
+cd alumni-network-app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2️⃣ **Install dependencies**
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3️⃣ **Start the app**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🏐 Project Structure
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+/src
+  /components
+  /screens
+  /navigation
+  /services
+  /contexts
+  /assets
+App.js
+```
+
+---
+
+## 🌐 Planned Features (Future Work)
+
+* Smart mentorship matching
+* Job and internship board
+* Alumni business marketplace
+* Alumni events with RSVP
+* Alumni map (global view)
+* Resource exchange and time capsule posts
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions!
+Please follow these steps:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add your message here'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+---
+
+## 💬 Contact
+
+For questions or collaboration:
+
+* **Ranadip Das** — \[ranadipdas07@gmail.com]
+
+---
+
+⭐ **If you like this project, don’t forget to give it a star!**
