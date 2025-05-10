@@ -60,6 +60,9 @@ This app creates a centralized, user-friendly platform to foster mentorship, car
 ### Home Screen
 ![Home Screen](./assets/screenshots/home.png)
 
+### Home Screen
+[![Home Screen](./assets/screenshots/home.png)](./assets/screenshots/home.png)
+
 ### Profile Screen
 ![Profile Screen](./assets/screenshots/profile.png)
 
