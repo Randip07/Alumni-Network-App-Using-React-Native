@@ -58,7 +58,7 @@ This app creates a centralized, user-friendly platform to foster mentorship, car
 <img src="./assets/screenshots/signUp.png" height="400" width = "auto">
 
 ### Home Screen
-<img src="./assets/screenshots/home.png" height="400" width = "auto">
+<img src="./assets/screenshots/Home.png" height="400" width = "auto">
 
 ### Profile Screen
 <img src="./assets/screenshots/profile.png" height="400" width = "auto">
