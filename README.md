@@ -39,16 +39,43 @@ This app creates a centralized, user-friendly platform to foster mentorship, car
 ## 🛠️ Tech Stack
 
 * **Frontend**: React Native (Expo)
-* **Backend**: \[Specify your backend, e.g., Node.js, Firebase, Django]
-* **Database**: \[e.g., Firebase Firestore, MongoDB, PostgreSQL]
-* **Authentication**: \[e.g., Firebase Auth, JWT]
-* **State Management**: \[e.g., Redux, Context API]
+* **Backend**: \[Node.js, ExpressJs]
+* **Database**: \[Firebase, MongoDB, Supabase]
+* **Authentication**: \[Supabase Auth]
+* **State Management**: \[Redux, Context API]
 
 ---
 
 ## 📱 Screenshots
 
-*(Add screenshots or screen recordings here to showcase the app UI)*
+### Welcome Screen
+![Welcome Screen](./assets/screenshots/welcome.png)
+
+### Login Screen
+![Login Screen](./assets/screenshots/login.png)
+
+### Sign up Screen
+![sign up Screen](./assets/screenshots/signUp.png)
+
+### Home Screen
+![Home Screen](./assets/screenshots/home.png)
+
+### Profile Screen
+![Profile Screen](./assets/screenshots/profile.png)
+
+### Search Screen
+![Search Screen](./assets/screenshots/search1.png)
+
+![Search Screen](./assets/screenshots/search.png)
+
+### Events Screen
+![Events Screen](./assets/screenshots/events.png)
+
+### Chat Screen
+![Chat Screen](./assets/screenshots/chat.png)
+
+### Chat Room Screen
+![Chat Screen](./assets/screenshots/chatRoom.png)
 
 ---
 
