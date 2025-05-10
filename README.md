@@ -49,37 +49,33 @@ This app creates a centralized, user-friendly platform to foster mentorship, car
 ## 📱 Screenshots
 
 ### Welcome Screen
-![Welcome Screen](./assets/screenshots/welcome.png)
-<img src="./assets/screenshots/welcome.png" height="200" width = "auto">
+<img src="./assets/screenshots/welcome.png" height="400" width = "auto">
 
 ### Login Screen
-![Login Screen](./assets/screenshots/login.png)
+<img src="./assets/screenshots/login.png" height="400" width = "auto">
 
 ### Sign up Screen
-![sign up Screen](./assets/screenshots/signUp.png)
+<img src="./assets/screenshots/signUp.png" height="400" width = "auto">
 
 ### Home Screen
-![Home Screen](./assets/screenshots/home.png)
-
-### Home Screen
-[![Home Screen](./assets/screenshots/home.png)](./assets/screenshots/home.png)
+<img src="./assets/screenshots/home.png" height="400" width = "auto">
 
 ### Profile Screen
-![Profile Screen](./assets/screenshots/profile.png)
+<img src="./assets/screenshots/profile.png" height="400" width = "auto">
 
 ### Search Screen
-![Search Screen](./assets/screenshots/search1.png)
+<img src="./assets/screenshots/search1.png" height="400" width = "auto">
 
-![Search Screen](./assets/screenshots/search.png)
+<img src="./assets/screenshots/search.png" height="400" width = "auto">
 
 ### Events Screen
-![Events Screen](./assets/screenshots/events.png)
+<img src="./assets/screenshots/events.png" height="400" width = "auto">
 
 ### Chat Screen
-![Chat Screen](./assets/screenshots/chat.png)
+<img src="./assets/screenshots/events.png" height="400" width = "auto">
 
 ### Chat Room Screen
-![Chat Screen](./assets/screenshots/chatRoom.png)
+<img src="./assets/screenshots/chatRoom.png" height="400" width = "auto">
 
 ---
 
