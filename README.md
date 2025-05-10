@@ -50,6 +50,7 @@ This app creates a centralized, user-friendly platform to foster mentorship, car
 
 ### Welcome Screen
 ![Welcome Screen](./assets/screenshots/welcome.png)
+<img src="./assets/screenshots/welcome.png" height="200" width = "auto">
 
 ### Login Screen
 ![Login Screen](./assets/screenshots/login.png)
