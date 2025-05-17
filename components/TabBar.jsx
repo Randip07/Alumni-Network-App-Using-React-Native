@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, useColorScheme } from "react-native";
 import React from "react";
-import { useLinkBuilder, useTheme } from "@react-navigation/native";
 import { AntDesign, Feather, FontAwesome5, Fontisto, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Icon from "@/assets/icons";
 import { theme } from "@/constants/theme";
@@ -16,7 +15,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         event : (props) => <Fontisto name="date" size={26} style={{...props}} />,
         search : (props) => <Icon name="search" size={28}  {...props}/>,
         chat : (props) => <Icon name="chat" size={28} {...props}/>,
-        profile : (props) =><Avatar uri={user?.image} size={hp(4)} rounded={theme.radius.xxl} style={[{borderWidth : 2}, {...props}]}
+        profile : (props) =><Avatar uri={user?.image} size={hp(4)} rounded={theme.radius.xxl} style={[{borderWidth : 3}, {...props}]}
     />
     }
    return (
@@ -58,10 +57,10 @@ const TabBar = ({ state, descriptors, navigation }) => {
                >
                 {
                     icons[route.name]({
-                        color: isFocused ? theme.colors.primary : isDarkMode? "#FAF9F6" :theme.colors.text,
+                        color: isFocused ? theme.colors.primary : isDarkMode? "#FAF9F6" : theme.colors.text,
                         borderColor : isFocused ? theme.colors.primary : "transparent",
                         borderWidth : isFocused ? "3" : "0",
-                        borderWidth : route.name === "event" && "0",
+                        borderWidth : route.name === "event" ? "0" : "3",
                         // size : isFocused ? "30" : "",
 
                     })

@@ -1,11 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import React from "react";
 import { theme } from "@/constants/theme";
 import { hp } from "@/helpers/common";
 import Avatar from "./Avatar";
 import moment from "moment";
+import themeMode from "@/constants/themeMode";
 
 const NotificationItem = ({router, item}) => {
+     const scheme = useColorScheme()
+    const mode = themeMode[scheme] || themeMode.light;
 
     const handleClick = ()=>{
         let {postId, commentId} = JSON.parse(item?.data)
@@ -13,13 +16,13 @@ const NotificationItem = ({router, item}) => {
     }
 
    return (
-      <TouchableOpacity style = {styles.container} onPress={handleClick}>
+      <TouchableOpacity style = {[styles.container, {backgroundColor : mode.colors.bgColor}]} onPress={handleClick}>
         <Avatar uri={item?.sender?.image} size={hp(5)}/>
         <View style = {styles.nameTitle}>
-            <Text style = {styles.text}>
+            <Text style = {[styles.text, {color : mode.colors.text}]}>
                 {item?.sender?.name}
             </Text>
-            <Text style = {[styles.text, {color : theme.colors.textDark}]}>
+            <Text style = {[styles.text, {color : theme.colors.textLight}]}>
                 {item?.title}
             </Text>
         </View>

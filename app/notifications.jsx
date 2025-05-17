@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { fetchNotificationDetails } from "@/services/notificationService";
@@ -8,8 +8,11 @@ import ScreenWrapper from "@/components/ScreenWrapper";
 import { useRouter } from "expo-router";
 import NotificationItem from "@/components/NotificationItem";
 import Header from "@/components/Header";
+import themeMode from "@/constants/themeMode";
 
 const Notifications = () => {
+   const scheme = useColorScheme()
+   const mode = themeMode[scheme] || themeMode.light;
    const [notifications, setNotifications] = useState([]);
    const { user } = useAuth();
    const router = useRouter();
@@ -25,7 +28,7 @@ const Notifications = () => {
    };
 
    return (
-      <ScreenWrapper>
+      <ScreenWrapper bg={mode.colors.bgColor}>
          <View style = {styles.container}>
           <Header title = "Notifications"/>
           {
@@ -46,6 +49,7 @@ const Notifications = () => {
                   item = {item}
                   key = {item.id}
                   router = {router}
+                  
                   />
                 )
               })

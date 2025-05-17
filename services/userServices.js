@@ -4,7 +4,7 @@ export const getUserData =  async (userId) => {
     try{
         const {data, error} = await supabase.from("users").select().eq("id", userId).single();
         if(error){
-            return {success: false , msg: err.message};
+            return {success: false , msg: error.message};
         }
         return {success: true , data};
     }catch(err){
@@ -18,7 +18,7 @@ export const getAllUserData =  async () => {
     try{
         const {data, error} = await supabase.from("users").select("id, name, image");
         if(error){
-            return {success: false , msg: err.message};
+            return {success: false , msg: error.message};
         }
         return {success: true , data};
     }catch(err){
@@ -32,7 +32,7 @@ export const updateUserData =  async (userId, data) => {
     try{
         const {error} = await supabase.from("users").update(data).eq("id", userId)
         if(error){
-            return {success: false , msg: err.message};
+            return {success: false , msg: error.message};
         }
         return {success: true , data};
     }catch(err){

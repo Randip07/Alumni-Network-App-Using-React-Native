@@ -57,6 +57,7 @@ const Home = () => {
             return updatedPosts;
          });
       }
+      setLoading(false)
    };
 
    const handleNewNotifications = (payload) => {

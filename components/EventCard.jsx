@@ -1,36 +1,35 @@
 import { StyleSheet, Text, useColorScheme, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
 import themeMode from "@/constants/themeMode";
 import { hp, wp } from "@/helpers/common";
 import ButtonII from "./ButtonII";
 import Icon from "@/assets/icons";
+import dateFormat from "dateformat";
+import { getSupabaseFileUrl } from "@/services/imageService";
 
-const EventCard = () => {
+const EventCard = ({ item }) => {
    const scheme = useColorScheme();
    const mode = themeMode[scheme] || themeMode.light;
-   const source =
-      "https://img.freepik.com/premium-vector/programming-web-banner-best-programming-languages-social-media-creative-concept-idea-desktop-pc_122058-1961.jpg?semt=ais_hybrid&w=740";
+
    return (
       <View style={styles.container}>
-         <Image style={styles.bannerImage} source={source} />
+         <Image style={styles.bannerImage} source={getSupabaseFileUrl(item.file)} />
          <View style={styles.detailsContainer}>
-            <Text style={[styles.description, { color: mode.colors.textLight }]}>May 26 09:00 AM</Text>
-            <Text style={[styles.title, { color: mode.colors.text }]}>Ui/UX Design Development</Text>
-            <Text style={[styles.description, { color: mode.colors.textLight }]}>
-               UI/UX refers to the design and experience aspects of digital products like websites, apps....
-            </Text>
+            <Text style={[styles.description, { color: mode.colors.textLight }]}>{dateFormat(item.startDate, "dddd dS mmmm h:MM TT")}</Text>
+            <Text style={[styles.title, { color: mode.colors.text }]}>{item?.title}</Text>
+            <Text style={[styles.description, { color: mode.colors.textLight }]}>{item?.description.split(" ").splice(0,20).join(" ")}.........</Text>
             <View style={styles.eventAddress}>
                <Icon name="location" size={20} />
-               <Text style={[styles.description, { color: mode.colors.textLight }]}> Assam Don Bosco University, Azara</Text>
+               <Text style={[styles.description, { color: mode.colors.textLight }]}> {item.location}</Text>
             </View>
-            <View style={styles.footer}>
+            {/* <View style={styles.footer}>
                <ButtonII title="more details" buttonStyle={styles.buttonStyle} />
                <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                   <Icon name="user" size={20} />
                   <Text style={[styles.description, { color: mode.colors.textLight }]}>200+</Text>
                </View>
-            </View>
+            </View> */}
          </View>
       </View>
    );
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       paddingBottom: hp(2),
       alignItems: "flex-start",
+      marginBottom : hp(4)
    },
    bannerImage: {
       width: "100%",
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
    },
    detailsContainer: {
       paddingHorizontal: wp(2),
+      marginTop: hp(2),
       gap: 10,
       alignItems: "flex-start",
    },

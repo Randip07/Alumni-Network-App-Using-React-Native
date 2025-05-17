@@ -31,19 +31,22 @@ const NewPost = () => {
    const [loading, setLoading] = useState(false);
    const [file, setFile] = useState(file);
    const [shouldPlay, setShouldPlay] = useState(true);
-   const [playButtonShow, setPlayButtonShow] = useState(true);
+   const [playButtonShow , setPlayButtonShow] = useState(true)
    const [muted, setMuted] = useState(false);
    const post = useLocalSearchParams();
 
+   
    useEffect(() => {
-      if (post && post?.id) {
-         bodyRef.current = post?.body;
-         setFile(post.file || null);
+      if(post && post?.id){
+         bodyRef.current = post?.body
+         setFile(post.file || null)
          setTimeout(() => {
-            editorRef?.current?.setContentHTML(post?.body);
+            editorRef?.current?.setContentHTML(post?.body)
          }, 300);
       }
-   }, []);
+   }, [])
+   
+   
 
    const onPick = async (isImage) => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -86,133 +89,128 @@ const NewPost = () => {
       return getSupabaseFileUrl(file)?.uri;
    };
 
-   const controllVideo = () => {
-      if (shouldPlay) {
+   const controllVideo = ()=> {
+      if(shouldPlay){
          setShouldPlay(false);
-      } else {
-         setPlayButtonShow(true);
-         setShouldPlay(true);
+         
+      }else{
+         setPlayButtonShow(true)
+         setShouldPlay(true)
          setTimeout(() => {
-            setPlayButtonShow(false);
+            setPlayButtonShow(false)
          }, 1000);
       }
-   };
+      
+   }
 
    const onSubmit = async () => {
-      if (!bodyRef) {
-         Alert.alert("Post", "Please select image or video and add caption.");
+      if(!bodyRef){
+         Alert.alert("Post", "Please select image or video and add caption.")
          return;
       }
 
       let data = {
          file,
-         body: bodyRef.current,
-         userId: user?.id,
-      };
+         body : bodyRef.current,
+         userId : user?.id
+      }
 
-      if (post && post?.id) data.id = post?.id;
+      if(post && post?.id) data.id = post?.id
 
       // create post
       setLoading(true);
       let res = await createOrUpdatePost(data);
       setLoading(false);
-
-      if (res.success) {
+      
+      if(res.success){
          setFile(null);
          bodyRef.current = "";
          editorRef.current.setContentHTML("");
          router.back();
-      } else {
-         Alert.alert("Post", res.msg);
+      }else{
+         Alert.alert("Post", res.msg)
       }
+      
+
    };
 
    return (
       <ScreenWrapper bg={mode.colors.bgColor}>
-         <View
-            style={styles.container}
-            onPress={() => {
-               Keyboard.dismiss();
-            }}
-         >
-            <Header title={post && post?.id ? "Update Post" : "Create Post"} />
+         <View style={styles.container} onPress={()=>{
+            Keyboard.dismiss()
+         }}>
+            <Header title={post && post?.id ? "Update Post" : "Create Post" }/>
             <CustomKeyboardView>
                <ScrollView contentContainerStyle={{ gap: 20 }}>
-                  <View style={styles.header}>
-                     {/* Avatar */}
-                     <Avatar uri={user?.image} size={hp(6.5)} rounded={theme.radius.xl} />
+               <View style={styles.header}>
+                  {/* Avatar */}
+                  <Avatar uri={user?.image} size={hp(6.5)} rounded={theme.radius.xl} />
 
-                     <View style={{ gap: 2 }}>
-                        <Text style={[styles.username, { color: mode.colors.text }]}>{user && user?.name}</Text>
-                        <Text style={styles.publicText}>Public</Text>
-                     </View>
+                  <View style={{ gap: 2 }}>
+                     <Text style={[styles.username, {color : mode.colors.text} ]}>{user && user?.name}</Text>
+                     <Text style={styles.publicText}>Public</Text>
                   </View>
+               </View>
 
-                  <View style={styles.media}>
-                     <Text style={[styles.addImageText, { color: mode.colors.text }]}>Add Photo or Video</Text>
-                     <View style={styles.medialcons}>
-                        <TouchableOpacity>
-                           <Icon name="image" size={30} color={mode.colors.text} onPress={() => onPick(true)} />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                           <Icon name="video" size={35} color={mode.colors.text} onPress={() => onPick(false)} />
-                        </TouchableOpacity>
-                     </View>
+               <View style={styles.media}>
+                  <Text style={[styles.addImageText, {color : mode.colors.text}]}>Add Photo or Video</Text>
+                  <View style={styles.medialcons}>
+                     <TouchableOpacity>
+                        <Icon name="image" size={30} color={mode.colors.text} onPress={() => onPick(true)} />
+                     </TouchableOpacity>
+                     <TouchableOpacity>
+                        <Icon name="video" size={35} color={mode.colors.text} onPress={() => onPick(false)} />
+                     </TouchableOpacity>
                   </View>
+               </View>
 
-                  {file && (
-                     <View style={styles.file}>
-                        {getFileType(file) == "video" ? (
-                           <>
-                              <Video
-                                 style={{ flex: 1 }}
-                                 source={{ uri: getFileUri(file) }}
-                                 onTouchEnd={() => controllVideo()}
-                                 resizeMode="cover"
-                                 isLooping
-                                 shouldPlay={shouldPlay ? true : false}
-                                 isMuted={muted ? true : false}
-                              />
-                           </>
-                        ) : (
-                           <>
-                              <Image source={{ uri: getFileUri(file) }} contentFit="contain" style={{ flex: 1 }} />
-                           </>
-                        )}
+               {file && (
+                  <View style={styles.file}  >
+                     {getFileType(file) == "video" ? (
+                        <>
+                           <Video style={{ flex: 1 }} source={{ uri: getFileUri(file) }} 
+                           onTouchEnd = {()=>controllVideo()}
+                           resizeMode="cover" 
+                           isLooping 
+                           shouldPlay = {shouldPlay? true : false}
+                           isMuted={muted ? true : false} />
+                        </>
+                     ) : (
+                        <>
+                           <Image source={{ uri: getFileUri(file) }} contentFit="contain" style={{ flex: 1 }} />
+                        </>
+                     )}
 
-                        <Pressable style={styles.closeIcon} onPress={() => setFile(null)}>
-                           <Icon name="delete" size={20} color="white" />
+                     <Pressable style={styles.closeIcon} onPress={() => setFile(null)}>
+                        <Icon name="delete" size={20} color="white" />
+                     </Pressable>
+
+                     {getFileType(file) == "video" && (muted ? (
+                        <Pressable style={styles.muteIcon} onPress={() => setMuted(false)}>
+                           <Icon name="mute" size={20} color="black" />
                         </Pressable>
+                     ) : (
+                        <Pressable style={styles.muteIcon} onPress={() => setMuted(true)}>
+                           <Icon name="unmute" size={20} color="black" />
+                        </Pressable>
+                     ))}
 
-                        {getFileType(file) == "video" &&
-                           (muted ? (
-                              <Pressable style={styles.muteIcon} onPress={() => setMuted(false)}>
-                                 <Icon name="mute" size={20} color="black" />
-                              </Pressable>
-                           ) : (
-                              <Pressable style={styles.muteIcon} onPress={() => setMuted(true)}>
-                                 <Icon name="unmute" size={20} color="black" />
-                              </Pressable>
-                           ))}
-
-                        {getFileType(file) == "video" &&
-                           (shouldPlay ? (
-                              playButtonShow && (
-                                 <Pressable style={styles.pauseIcon} onPress={() => controllVideo()}>
-                                    <Icon name="pause" size={20} color="black" />
-                                 </Pressable>
-                              )
-                           ) : (
-                              <Pressable style={styles.pauseIcon} onPress={() => controllVideo()}>
-                                 <Icon name="play" size={20} color="black" />
-                              </Pressable>
-                           ))}
-                     </View>
-                  )}
-                  <View style={styles.textEditor}>
-                     <RichTextEditor editorRef={editorRef} onChangeText={(body) => (bodyRef.current = body)} />
+                     {getFileType(file) == "video" && (shouldPlay ?  playButtonShow && (
+                           <Pressable style={styles.pauseIcon} onPress={() => controllVideo()}>
+                              <Icon name="pause" size={20} color="black" />
+                           </Pressable>
+                     )
+                      : (
+                        <Pressable style={styles.pauseIcon} onPress={() => controllVideo()}>
+                           <Icon name="play" size={20} color="black" />
+                        </Pressable>
+                     ))}
                   </View>
-               </ScrollView>
+               )}
+               <View style={styles.textEditor}>
+                  <RichTextEditor editorRef={editorRef} onChangeText={(body) => (bodyRef.current = body)} />
+               </View>
+            </ScrollView>
             </CustomKeyboardView>
             <Button buttonStyle={{ height: hp(6.2) }} title={post && post?.id ? "Update" : "Create"} hasShadow={false} loading={loading} onPress={onSubmit} />
          </View>
@@ -320,12 +318,12 @@ const styles = StyleSheet.create({
       backgroundColor: theme.colors.gray,
    },
 
-   pauseIcon: {
+   pauseIcon : {
       position: "absolute",
       bottom: 10,
       left: 10,
       padding: 7,
       borderRadius: 50,
       backgroundColor: theme.colors.gray,
-   },
+   }
 });

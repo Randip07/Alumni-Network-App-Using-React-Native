@@ -30,7 +30,7 @@ export const fetchNotificationDetails = async (receiverId) => {
          .order("created_at", {ascending : false})
 
       if (error) {
-         console.log("fetchNotificationDetails error", err);
+         console.log("fetchNotificationDetails error", error);
          return { success: false, msg: "Could not fetch Notification details" };
       }
 

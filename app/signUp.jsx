@@ -173,8 +173,8 @@ export default signUp = () => {
                   )}
                   {/* Button */}
                   <Button title="Sign up" loading={loading} onPress={onSubmit} />
-               </View>
-
+               
+                  </View>
                {/* footer */}
                {!loading && (
                   <View style={styles.footer}>
@@ -184,6 +184,7 @@ export default signUp = () => {
                      </Pressable>
                   </View>
                )}
+               
             </CustomKeyboardView>
          </View>
       </ScreenWrapper>

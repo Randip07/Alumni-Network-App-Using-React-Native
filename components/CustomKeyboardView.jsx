@@ -1,8 +1,10 @@
-import { View, Text, Platform , ScrollView, KeyboardAvoidingView} from 'react-native'
+import { View, Text, Platform , ScrollView, KeyboardAvoidingView, useColorScheme} from 'react-native'
 import React from 'react'
 
-const CustomKeyboardView = ({children , inChat}) => {
+const CustomKeyboardView = ({children , inChat =false}) => {
     const ios = Platform.OS == 'ios';
+    const isDarkMode = useColorScheme() === "dark"
+
     let kevConfig = {}
     let scrollviewConfig = {}
 
@@ -14,16 +16,15 @@ const CustomKeyboardView = ({children , inChat}) => {
   return (
     <KeyboardAvoidingView
         behavior={ios ? 'padding' : 'height'}
-        style={{flex: 1 , backgroundColor: 'black'}}
+        style={{flex: 1 , backgroundColor: isDarkMode ? "black" : "white"}}
        {...kevConfig}
-
     >
         <ScrollView
-         style={{flex: 1}}
+        style = {{flex : 1}}
          bounces = {false}
          showsVerticalScrollIndicator = {false}
          {...scrollviewConfig}
-         keyboardShouldPersistTaps = "handled"
+         keyboardShouldPersistTaps = "always"
         >
             {children}
         </ScrollView>
