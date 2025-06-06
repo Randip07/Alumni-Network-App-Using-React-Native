@@ -9,12 +9,16 @@ import Icon from "@/assets/icons";
 import { useRouter } from "expo-router";
 import { fetchEvents } from "@/services/postService";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
+import { theme } from "@/constants/theme";
 
 const Event = () => {
    const isDarkMode = useColorScheme() === "dark";
    const mode = isDarkMode ? themeMode.dark : themeMode.light;
    const router = useRouter();
    const [events, setEvents] = useState([]);
+   const [notificationCount, setNotificationCount] = useState(0);
+   const {user} = useAuth();
 
    useEffect(() => {
       getEvents();
@@ -31,7 +35,7 @@ const Event = () => {
    const handlePostEvent = async (payload) => {
       if (payload.eventType == "INSERT" && payload?.new?.id) {
          let newPost = { ...payload.new };
-         setEvents((prevPost)=>[newPost, ...prevPost]);
+         setEvents((prevPost) => [newPost, ...prevPost]);
       }
 
       if (payload.eventType == "DELETE" && payload?.old?.id) {
@@ -40,27 +44,42 @@ const Event = () => {
             return updatedPosts;
          });
       }
+   };
 
+   const handleEventRequest = (payload)=>{
       if (payload.eventType == "UPDATE" && payload?.new?.id) {
          setEvents((prevPosts) => {
             let updatedPosts = prevPosts.map((post) => {
-               if (post.id == payload.new.id) {
-                  post.body = payload.new.body;
-                  post.file = payload.new.file;
+               if (post.requestId.id == payload.new.id) {
+                  post.requestId = payload.new
                }
                return post;
             });
             return updatedPosts;
          });
       }
+   }
+
+   const handleNewNotifications = (payload) => {
+      if (payload.eventType == "INSERT" && payload.new.id) {
+         setNotificationCount((prev) => prev + 1);
+      }
    };
+
    useEffect(() => {
       let eventChannel = supabase.channel("events").on("postgres_changes", { event: "*", schema: "public", table: "events" }, handlePostEvent).subscribe();
+      let eventRequestChannel = supabase.channel("eventRequest").on("postgres_changes", { event: "UPDATE", schema: "public", table: "eventRequest" }, handleEventRequest).subscribe();
+      let notificationChannel = supabase
+               .channel("eventNotifications")
+               .on("postgres_changes", { event: "INSERT", schema: "public", table: "eventNotifications", filter: `receiverId=eq.${user.id}` }, handleNewNotifications)
+               .subscribe();
 
       // getPosts();
 
       return () => {
          supabase.removeChannel(eventChannel);
+         supabase.removeChannel(eventRequestChannel);
+         supabase.removeChannel(notificationChannel);
       };
    }, []);
    return (
@@ -68,13 +87,28 @@ const Event = () => {
          <View style={styles.container}>
             <View style={styles.header}>
                <Text style={styles.heading}>Events</Text>
-               <Pressable
+               <View style ={{flexDirection : "row", gap : 20}}>
+                  <Pressable
                   onPress={() => {
                      router.push("newEvent");
                   }}
                >
                   <Icon name="plus" size={hp(3.2)} color={mode.colors.primary} strokeWidth={2} />
                </Pressable>
+               <Pressable
+                  onPress={() => {
+                     setNotificationCount(0);
+                     router.push("eventNotifications");
+                  }}
+               >
+                  <Icon name="heart" size={hp(3.2)} color={mode.colors.primary} strokeWidth={2} />
+                  {notificationCount > 0 && (
+                     <View style={styles.pill}>
+                        <Text style={styles.pillText}>{notificationCount}</Text>
+                     </View>
+                  )}
+               </Pressable>
+               </View>
             </View>
             <FlatList
                data={events}
@@ -112,4 +146,20 @@ const styles = StyleSheet.create({
       fontSize: hp(5),
       fontWeight: 700,
    },
+   pill: {
+         position: "absolute",
+         right: -10,
+         top: -4,
+         height: hp(2.2),
+         width: hp(2.2),
+         justifyContent: "center",
+         alignItems: "center",
+         borderRadius: 20,
+         backgroundColor: theme.colors.roseLight,
+      },
+      pillText: {
+         color: "white",
+         fontSize: hp(1.2),
+         fontWeight: theme.fonts.bold,
+      },
 });

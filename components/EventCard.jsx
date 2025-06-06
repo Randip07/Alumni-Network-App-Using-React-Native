@@ -1,4 +1,4 @@
-import { StyleSheet, Text, useColorScheme, View } from "react-native";
+import { Pressable, StyleSheet, Text, Touchable, TouchableOpacity, useColorScheme, View } from "react-native";
 import React, { useState } from "react";
 import { Image } from "expo-image";
 import themeMode from "@/constants/themeMode";
@@ -7,22 +7,34 @@ import ButtonII from "./ButtonII";
 import Icon from "@/assets/icons";
 import dateFormat from "dateformat";
 import { getSupabaseFileUrl } from "@/services/imageService";
+import { useRouter } from "expo-router";
 
 const EventCard = ({ item }) => {
+   const router = useRouter();
    const scheme = useColorScheme();
    const mode = themeMode[scheme] || themeMode.light;
 
+   const openEventDetails = async () => {
+      router.push({ pathname: "eventDetails", params: { eventId: item?.id } });
+   };
+   console.log(item.requestId.status);
+   
    return (
-      <View style={styles.container}>
+      item.requestId.status != "rejected" &&(
+         <TouchableOpacity style={styles.container} onPress={openEventDetails}>
          <Image style={styles.bannerImage} source={getSupabaseFileUrl(item.file)} />
          <View style={styles.detailsContainer}>
-            <Text style={[styles.description, { color: mode.colors.textLight }]}>{dateFormat(item.startDate, "dddd dS mmmm h:MM TT")}</Text>
+            <View style={{ width: "100%", justifyContent: "space-between", flexDirection: "row" }}>
+               <Text style={[styles.description, { color: mode.colors.textLight }]}>{dateFormat(item?.startDate, "dddd dS mmmm h:MM TT")}</Text>
+               <Text style={[styles.description, { color: mode.colors.textLight }]}>{item?.totalHour}hrs+</Text>
+            </View>
             <Text style={[styles.title, { color: mode.colors.text }]}>{item?.title}</Text>
-            <Text style={[styles.description, { color: mode.colors.textLight }]}>{item?.description.split(" ").splice(0,20).join(" ")}.........</Text>
+            <Text style={[styles.description, { color: mode.colors.textLight }]}>{item?.description.split(" ").splice(0, 20).join(" ")}.........</Text>
             <View style={styles.eventAddress}>
                <Icon name="location" size={20} />
-               <Text style={[styles.description, { color: mode.colors.textLight }]}> {item.location}</Text>
+               <Text style={[styles.description, { color: mode.colors.textLight }]}> {item?.location}</Text>
             </View>
+            <Text style={[styles.description, { color: mode.colors.textLight }]}> {item?.requestId?.status}</Text>
             {/* <View style={styles.footer}>
                <ButtonII title="more details" buttonStyle={styles.buttonStyle} />
                <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -31,7 +43,9 @@ const EventCard = ({ item }) => {
                </View>
             </View> */}
          </View>
-      </View>
+      </TouchableOpacity>
+      )
+      
    );
 };
 
@@ -44,7 +58,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       paddingBottom: hp(2),
       alignItems: "flex-start",
-      marginBottom : hp(4)
+      marginBottom: hp(4),
    },
    bannerImage: {
       width: "100%",

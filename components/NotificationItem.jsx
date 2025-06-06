@@ -11,8 +11,8 @@ const NotificationItem = ({router, item}) => {
     const mode = themeMode[scheme] || themeMode.light;
 
     const handleClick = ()=>{
-        let {postId, commentId} = JSON.parse(item?.data)
-        router.push({pathname : "postDetails", params : {postId, commentId}})
+        let {eventId} = JSON.parse(item?.data)
+        router.push({pathname : "eventDetails", params : {eventId}})
     }
 
    return (

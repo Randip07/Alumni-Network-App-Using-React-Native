@@ -23,6 +23,7 @@ import DatePicker from "react-native-date-picker";
 import DateTimePicker, { DateType, useDefaultStyles } from "react-native-ui-datepicker";
 import { supabase } from "@/lib/supabase";
 import SearchCard from "@/components/SearchCard";
+import { createEventNotification } from "@/services/notificationService";
 
 const NewEvent = () => {
    const scheme = useColorScheme();
@@ -40,7 +41,6 @@ const NewEvent = () => {
 
    const defaultStyles = useDefaultStyles();
    const [selectedStartDate, setSelectedStartDate] = useState();
-   const [selectedEndDate, setSelectedEndDate] = useState();
    const [searchResult, setSearchResult] = useState([]);
 
    const titleRef = useRef("");
@@ -48,6 +48,8 @@ const NewEvent = () => {
    const locationRef = useRef("");
    const [faculty, setFaculty] = useState("");
    const facultyIdRef = useRef("");
+   const totalHourRef = useRef();
+
    const [facultyShow, setFacultyShow] = useState(false);
 
    useEffect(() => {
@@ -60,7 +62,7 @@ const NewEvent = () => {
       let result = await ImagePicker.launchImageLibraryAsync({
          mediaTypes: ["images"],
          allowsEditing: true,
-          aspect: [4, 3],
+         aspect: [4, 3],
          quality: 0.7,
       });
 
@@ -122,6 +124,7 @@ const NewEvent = () => {
       const description = descriptionRef.current.trim();
       const location = locationRef.current.trim();
       const faculty = facultyIdRef.current.trim();
+      const totalHour = totalHourRef.current.trim();
 
       let data = {
          file,
@@ -129,17 +132,16 @@ const NewEvent = () => {
          description,
          location,
          startDate: selectedStartDate,
-         endDate: selectedEndDate,
-         userId : user?.id,
-         faculty
+         totalHour,
+         userId: user?.id,
+         faculty,
       };
 
       let eventReq = {
-         senderId : user?.id,
-         receiverId : faculty,
-         status : "requested"
-      }
-
+         senderId: user?.id,
+         receiverId: faculty,
+         status: "requested",
+      };
 
       if (post && post?.id) data.id = post?.id;
 
@@ -150,9 +152,16 @@ const NewEvent = () => {
 
       if (res.success) {
          setFile(null);
-         let res = await createOrUpdateEventRequest(eventReq);
-         console.log(res);
-         
+         let requestRes = await createOrUpdateEventRequest(eventReq);
+         await createOrUpdateEvent({id : res.data.id, requestId : requestRes.data.id})
+         let notify = {
+            senderId: user?.id,
+            receiverId: faculty,
+            title: "sent you a request for event",
+            data: JSON.stringify({ eventId: res?.data.id}),
+         };
+
+         createEventNotification(notify);
          router.back();
       } else {
          Alert.alert("Event", res.msg);
@@ -307,15 +316,14 @@ const NewEvent = () => {
                         onChange={({ date }) => setSelectedStartDate(date)}
                         styles={defaultStyles}
                      />
-                     <Text style={{ color: isDarkMode ? "white" : "black", fontSize: hp(3), fontWeight: theme.fonts.semibold }}>End Date & Time</Text>
-                     <DateTimePicker
-                        timePicker={true}
-                        use12Hours={true}
-                        mode="single"
-                        minDate={Date.now()}
-                        date={selectedEndDate}
-                        onChange={({ date }) => setSelectedEndDate(date)}
-                        styles={defaultStyles}
+
+                     <Text style={{ color: isDarkMode ? "white" : "black", fontSize: hp(3), fontWeight: theme.fonts.semibold }}>Total Time </Text>
+                     <Input
+                        placeholder="Total Hour"
+                        onChangeText={(value) => {
+                           totalHourRef.current = value;
+                        }}
+                        keyboardType="numeric"
                      />
 
                      <Text style={{ color: isDarkMode ? "white" : "black", fontSize: hp(3), fontWeight: theme.fonts.semibold }}>Select Faculty </Text>
@@ -323,7 +331,7 @@ const NewEvent = () => {
                         value={faculty}
                         placeholder="Search Faculty"
                         onChangeText={(value) => {
-                           setFacultyShow(true)
+                           setFacultyShow(true);
                            facultyIdRef.current = "";
                            searchProfiles(value);
                         }}
@@ -332,7 +340,7 @@ const NewEvent = () => {
                         <View>
                            <FlatList
                               data={searchResult}
-                              keyboardShouldPersistTaps = "always"
+                              keyboardShouldPersistTaps="always"
                               showsVerticalScrollIndicator={false}
                               contentContainerStyle={styles.listStyle}
                               keyExtractor={(item) => item.id.toString()}
@@ -341,7 +349,7 @@ const NewEvent = () => {
                                     onPress={() => {
                                        setFaculty(item?.name);
                                        facultyIdRef.current = item?.id;
-                                       setFacultyShow(false)
+                                       setFacultyShow(false);
                                     }}
                                  >
                                     <SearchCard item={item} inEvent={true} />

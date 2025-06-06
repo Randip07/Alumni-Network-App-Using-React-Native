@@ -55,12 +55,7 @@ export const createOrUpdateEvent = async (post) => {
 
 export const createOrUpdateEventRequest = async (eventReq) => {
    try {
-      console.log("hello");
-      
       const { data, error } = await supabase.from("eventRequest").upsert(eventReq).select().single();
-
-      console.log(data, error);
-      
       if (error) {
          console.log("createEventReq error", error);
          return { success: false, msg: "Could not create event Req" };
@@ -122,21 +117,17 @@ export const fetchPosts = async (limit = 10, userId) => {
    }
 };
 
-export const fetchEvents = async (limit = 10, userId) => {
+export const fetchEvents = async (limit = 10, eventId) => {
    try {
-      if (userId) {
+      if (eventId) {
          const { data, error } = await supabase
             .from("events")
             .select(
+               `*,
+               requestId : eventRequest(*) 
                `
-         *,
-         faculty: users (id, name, image),
-         `
-            )
-            .order("created_at", { ascending: false })
-            .eq("userId", userId)
-            .limit(limit);
-
+            ).eq("id", eventId).single()
+            
          if (error) {
             console.log("fetchPosts error", error);
             return { success: false, msg: "Could not fetch posts" };
@@ -144,7 +135,9 @@ export const fetchEvents = async (limit = 10, userId) => {
 
          return { success: true, data: data };
       } else {
-         const { data, error } = await supabase.from("events").select(`*`).order("created_at", { ascending: false }).limit(limit);
+         const { data, error } = await supabase.from("events").select(`*,
+               requestId : eventRequest(*) 
+               `).order("created_at", { ascending: false }).limit(limit);
 
          if (error) {
             console.log("fetchPosts error", error);
